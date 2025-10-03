@@ -20,5 +20,7 @@ jobs:
         node-version: 20
     - name: Install node modules
       run: npm install
+    - name: Run security tests
+      run: npm audit
     - name: Run tests
       run: npm test
