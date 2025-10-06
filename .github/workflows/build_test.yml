@@ -24,3 +24,19 @@ jobs:
       run: npm audit
     - name: Run tests
       run: npm test
+
+  deploy:
+    needs: build_test       # will run after build_test job
+    # will run only if we push to main branch
+    if: github.ref == 'refs/heads/main'   
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          # with secrets we access all the private keys in our repository
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          wait-for-success: true
